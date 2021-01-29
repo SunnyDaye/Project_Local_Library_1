@@ -66,7 +66,7 @@ function numberOfBorrows({id}, books) { //Access account id to compare by destru
   //iterate through books array
   let result = books.reduce((acc,{borrows}) => {
     //check borrows array in book to see if id exist
-    (borrows.some(user => user.id === id)) ? acc++ : acc+=0;
+    (borrows.some(user => user.id === id)) ? acc++ : acc+=0;   
     return acc;
   },0);
   return result;

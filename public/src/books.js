@@ -74,15 +74,12 @@ function partitionBooksByBorrowedStatus(books) {
  */
 function getBorrowersForBook(book, accounts) {
   //Access the borrows array and the contents inside
-  let borrowers = [...book.borrows];
-  borrowers.forEach((book,index)=> {
-    let accountInfo = accountMethods.findAccountById(accounts,book.id);
-    borrowers[index] = {...book,...accountInfo};
+  let borrowers = [...book.borrows]; //
+  borrowers.forEach((transactions,index) => {
+    let accountInfo = accountMethods.findAccountById(accounts,transactions.id);
+    borrowers[index] = {...transactions,...accountInfo};
   });
-  while(borrowers.length > 10)
-  {
-    borrowers.pop();
-  }
+  borrowers.splice(10);
   return borrowers;
 }
 

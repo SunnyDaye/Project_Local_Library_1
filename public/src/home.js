@@ -1,6 +1,24 @@
 /********IMPORTS************/
 let bookMethods = require('./books.js');
 
+/***********Helpers**********/
+function categoryCounter(array,category)
+{
+  let categories = array.reduce((acc = {},element) => {
+    let property = element[category];
+    (acc[property]) ? acc[property].count++ : acc[property] = {count: 1};
+    return acc;
+  },{});
+
+  let categoryCounts = Object.values(categories);
+  let keys =  Object.keys(categories);
+
+  categoryCounts = categoryCounts.map((element,index) => {
+    return {name: keys[index],...element};
+  });
+
+  return categoryCounts;
+}
 
 function totalBooksCount(books) {
   return books.length;
@@ -17,23 +35,10 @@ function booksBorrowedCount(books) {
 
 
 
-function getMostCommonGenres(books) {
+function getMostCommonGenres(books){
   //iterate through books and create an array of genres with counts
-  let result = [{name:books[0].genre , count: 1}];
 
-  for(let i = 1; i < books.length; i++) 
-  {
-    let genre = books[i].genre;
-    let index = result.findIndex(({name}) => name === genre)
-
-    if(index === -1){
-      let newObj = {name: genre, count: 1};
-      result.push(newObj);
-    }
-    else{
-      result[index].count++;
-    }
-  }
+  let result = categoryCounter(books,"genre"); //My helper function. Defined at the top
   //sort
   result.sort((a,b) => b.count - a.count);
 
@@ -95,7 +100,7 @@ function getMostPopularAuthors(books, authors) {
       result[index].count+=books[i].borrows.length;
     }
   }
-
+  
 
   //Sort and get top five
   result.sort((a,b) => b.count - a.count);
